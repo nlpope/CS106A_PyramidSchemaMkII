@@ -10,29 +10,76 @@ import acm.graphics.*;
 
 public class CS106A_PyramidSchemaMkII extends GraphicsProgram
 {	
+	/**
+	 * Global vars are instantiated before the 'run()' method
+	 * i.e. before the canvas is drawn to the screen, which is
+	 * why my BASE_ORIGIN was returning (0.0,0.0) 
+	 * at the start.
+	 */
 	private static final int BRICK_WIDTH = 30;
 	private static final int BRICK_HEIGHT = 12;
-	private int BRICKS_IN_BASE = 14;
-	private int PYRAMID_HEIGHT = (BRICKS_IN_BASE) * BRICK_HEIGHT;
-	//private GPoint BASE_ORIGIN = new GPoint((getWidth() / 2), getHeight() - BRICK_HEIGHT);
-	private GPoint BASE_ORIGIN = new GPoint(getWidth(), getHeight());
+	private final int BRICKS_IN_BASE = 14;
+	//private int PYRAMID_HEIGHT = (BRICKS_IN_BASE) * BRICK_HEIGHT;
+	private GPoint BASE_ORIGIN;
 	
 	public void run()
 	{ 
-		println("BASE_ORIGIN = " + BASE_ORIGIN);
+		//println("BASE_ORIGIN = " + BASE_ORIGIN);
+		BASE_ORIGIN = new GPoint((getWidth() / 2), getHeight() - BRICK_HEIGHT);
+		println("canvas width = " + getWidth()/2 + "canvas height = " + (getHeight() - 12));
 		createPyramid();
+		println("donezo");
 	}
 	
 	
 	private void createPyramid()
 	{
+		/*
 		int totalBricks = 0;
 		int tmpBricks = BRICKS_IN_BASE;
 		while (tmpBricks > 0) { 
 			totalBricks += tmpBricks;
 			tmpBricks -= 1;
 		}
-
+		*/
+		
+		//x = j, y = i
+		for (int i = 0; i < BRICKS_IN_BASE; i++) { //always as high as it is long
+			int bricksInRow = BRICKS_IN_BASE - i;
+			for (int j = 0; j < bricksInRow; j++) {//j = 1 < 14
+				
+				GPoint rowOrigin = new GPoint(
+						BASE_ORIGIN.getX() - (bricksInRow / 2),
+						BASE_ORIGIN.getY() - (i * BRICK_HEIGHT)					
+				);
+				
+				println("row origin = " + rowOrigin);
+				println("");
+				
+				GRect newBrick = new GRect(
+						/*
+						 * PROBLEM CHILD
+						 * ROW ORIGIN IS FLUSH INSTEAD OF CASCADING
+						 * PLUS IM ADDING TOO MUCH Y SO EACH ROW IS SPACED
+						 * 
+						 * rowOrigin declaration up top makes sense so 
+						 * it must be right here
+						 */
+						rowOrigin.getX() + (j * BRICK_WIDTH),
+						rowOrigin.getY() - (i * BRICK_HEIGHT), //good
+						BRICK_WIDTH, 
+						BRICK_HEIGHT
+						//END PROBLEM CHILD
+				);
+				
+				add(newBrick);
+			}
+		}
+		
+			
+		
+		
+		/*
 		while (totalBricks > 0) {
 			for (int i = 0; i < PYRAMID_HEIGHT; i++) {
 				int totalBricksInRow = BRICKS_IN_BASE - i;
@@ -54,6 +101,7 @@ public class CS106A_PyramidSchemaMkII extends GraphicsProgram
 				add(newBrick);
 			}
 			totalBricks--;
-		}		
+		}
+		*/
 	}
 }
