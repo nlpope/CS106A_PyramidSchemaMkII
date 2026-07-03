@@ -46,30 +46,20 @@ public class CS106A_PyramidSchemaMkII extends GraphicsProgram
 		//x = j, y = i
 		for (int i = 0; i < BRICKS_IN_BASE; i++) { //always as high as it is long
 			int bricksInRow = BRICKS_IN_BASE - i;
-			for (int j = 0; j < bricksInRow; j++) {//j = 1 < 14
+			for (int j = 0; j < bricksInRow; j++) {
 				
 				GPoint rowOrigin = new GPoint(
-						BASE_ORIGIN.getX() - (bricksInRow / 2),
-						BASE_ORIGIN.getY() - (i * BRICK_HEIGHT)					
+						BASE_ORIGIN.getX() - ((bricksInRow * BRICK_WIDTH) / 2),
+						//BASE_ORIGIN.getY() - (i * BRICK_HEIGHT) //this worked but pyr. lvls were spaced apart
+						//BASE_ORIGIN.getY() - i //this worked but pyr. was too smushed together
+						BASE_ORIGIN.getY() - BRICK_WIDTH 
 				);
 				
-				println("row origin = " + rowOrigin);
-				println("");
-				
 				GRect newBrick = new GRect(
-						/*
-						 * PROBLEM CHILD
-						 * ROW ORIGIN IS FLUSH INSTEAD OF CASCADING
-						 * PLUS IM ADDING TOO MUCH Y SO EACH ROW IS SPACED
-						 * 
-						 * rowOrigin declaration up top makes sense so 
-						 * it must be right here
-						 */
 						rowOrigin.getX() + (j * BRICK_WIDTH),
-						rowOrigin.getY() - (i * BRICK_HEIGHT), //good
+						rowOrigin.getY() - (i * BRICK_HEIGHT), 
 						BRICK_WIDTH, 
 						BRICK_HEIGHT
-						//END PROBLEM CHILD
 				);
 				
 				add(newBrick);
